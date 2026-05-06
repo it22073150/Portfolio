@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chamika Samarasinghe – Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0e17; --surface: #111827; --card: #161f30;
+    --accent: #00d4ff; --accent2: #7c3aed; --accent3: #10b981;
+    --text: #e2e8f0; --muted: #64748b; --border: rgba(255,255,255,0.07);
+    --glow: rgba(0,212,255,0.15);
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+  body::before { content:''; position:fixed; inset:0; z-index:0; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); opacity:0.4; }
+
+  nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:1.2rem 4rem; background:rgba(10,14,23,0.85); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+  .nav-logo { font-family:'Syne',sans-serif; font-weight:800; font-size:1.1rem; color:var(--accent); letter-spacing:0.05em; text-decoration:none; }
+  .nav-links { display:flex; gap:2rem; list-style:none; }
+  .nav-links a { color:var(--muted); text-decoration:none; font-size:0.875rem; font-weight:500; letter-spacing:0.04em; text-transform:uppercase; transition:color 0.2s; }
+  .nav-links a:hover { color:var(--accent); }
+
+  #hero { min-height:100vh; display:flex; align-items:center; padding:8rem 4rem 4rem; position:relative; overflow:hidden; }
+  .hero-blob { position:absolute; border-radius:50%; filter:blur(80px); pointer-events:none; }
+  .blob1 { width:500px; height:500px; background:rgba(0,212,255,0.08); top:-100px; right:-100px; }
+  .blob2 { width:400px; height:400px; background:rgba(124,58,237,0.06); bottom:0; left:20%; }
+  .hero-inner { position:relative; z-index:1; max-width:900px; }
+  .hero-tag { display:inline-flex; align-items:center; gap:0.5rem; background:rgba(0,212,255,0.1); border:1px solid rgba(0,212,255,0.25); color:var(--accent); font-size:0.8rem; font-weight:500; padding:0.35rem 0.9rem; border-radius:100px; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:1.8rem; animation:fadeUp 0.6s ease both; }
+  .hero-tag::before { content:'●'; font-size:0.5rem; animation:blink 1.5s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  h1.hero-name { font-family:'Syne',sans-serif; font-size:clamp(3rem,7vw,6rem); font-weight:800; line-height:1; letter-spacing:-0.03em; animation:fadeUp 0.6s 0.1s ease both; }
+  .hero-name span { color:var(--accent); }
+  .hero-title { font-family:'Syne',sans-serif; font-size:clamp(1rem,2.5vw,1.5rem); font-weight:600; color:var(--muted); margin:0.5rem 0 1.5rem; animation:fadeUp 0.6s 0.2s ease both; }
+  .hero-desc { max-width:620px; color:var(--muted); font-size:1rem; font-weight:300; line-height:1.75; animation:fadeUp 0.6s 0.3s ease both; }
+  .hero-ctas { display:flex; flex-wrap:wrap; gap:1rem; margin-top:2.5rem; animation:fadeUp 0.6s 0.4s ease both; }
+  .btn { display:inline-flex; align-items:center; gap:0.5rem; padding:0.8rem 1.8rem; border-radius:8px; font-size:0.9rem; font-weight:500; text-decoration:none; cursor:pointer; transition:all 0.25s; border:none; font-family:inherit; }
+  .btn-primary { background:var(--accent); color:#0a0e17; box-shadow:0 0 30px rgba(0,212,255,0.3); }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 0 45px rgba(0,212,255,0.5); }
+  .btn-secondary { background:transparent; color:var(--text); border:1px solid var(--border); }
+  .btn-secondary:hover { border-color:var(--accent); color:var(--accent); }
+  .hero-stats { display:flex; gap:3rem; margin-top:4rem; animation:fadeUp 0.6s 0.5s ease both; }
+  .stat-num { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--accent); line-height:1; }
+  .stat-label { font-size:0.8rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.05em; margin-top:0.25rem; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+  section { padding:5rem 4rem; position:relative; z-index:1; }
+  .section-label { font-size:0.75rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:0.5rem; }
+  h2.section-title { font-family:'Syne',sans-serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:800; line-height:1.1; letter-spacing:-0.02em; margin-bottom:3rem; }
+  .divider { height:1px; background:var(--border); margin:0 4rem; }
+
+  #about { background:var(--surface); }
+  .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; }
+  .about-text p { color:var(--muted); font-weight:300; line-height:1.8; margin-bottom:1rem; }
+  .contact-list { margin-top:2rem; display:flex; flex-direction:column; gap:0.8rem; }
+  .contact-item { display:flex; align-items:center; gap:0.75rem; color:var(--muted); font-size:0.9rem; }
+  .contact-item .icon { color:var(--accent); font-size:1rem; width:20px; }
+  .skills-cloud { display:flex; flex-wrap:wrap; gap:0.6rem; }
+  .skill-tag { background:var(--card); border:1px solid var(--border); color:var(--text); font-size:0.8rem; padding:0.4rem 0.9rem; border-radius:6px; font-weight:400; transition:all 0.2s; }
+  .skill-tag:hover { border-color:var(--accent); color:var(--accent); background:var(--glow); }
+  .skills-section-title { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:1rem; color:var(--text); }
+
+  .timeline { position:relative; padding-left:2rem; }
+  .timeline::before { content:''; position:absolute; left:0; top:0; bottom:0; width:1px; background:linear-gradient(to bottom, var(--accent), var(--accent2), transparent); }
+  .timeline-item { position:relative; margin-bottom:2.5rem; }
+  .timeline-dot { position:absolute; left:-2rem; top:0.4rem; width:10px; height:10px; border-radius:50%; background:var(--accent); border:2px solid var(--bg); transform:translateX(-50%); margin-left:1px; }
+  .timeline-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.5rem 1.8rem; transition:border-color 0.25s,transform 0.25s; }
+  .timeline-card:hover { border-color:var(--accent); transform:translateX(4px); }
+  .tl-header { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem; }
+  .tl-role { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; }
+  .tl-period { font-size:0.78rem; color:var(--accent); font-weight:500; background:rgba(0,212,255,0.1); padding:0.2rem 0.7rem; border-radius:100px; }
+  .tl-company { color:var(--muted); font-size:0.875rem; margin-bottom:0.75rem; }
+  .tl-desc { color:var(--muted); font-size:0.875rem; font-weight:300; line-height:1.7; }
+
+  #education { background:var(--surface); }
+  .edu-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; }
+  .edu-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.8rem; transition:border-color 0.25s,transform 0.25s; }
+  .edu-card:hover { border-color:var(--accent2); transform:translateY(-4px); }
+  .edu-icon { font-size:1.5rem; margin-bottom:1rem; }
+  .edu-degree { font-family:'Syne',sans-serif; font-weight:700; font-size:0.95rem; margin-bottom:0.3rem; }
+  .edu-inst { color:var(--accent); font-size:0.85rem; font-weight:500; margin-bottom:0.3rem; }
+  .edu-period { color:var(--muted); font-size:0.8rem; }
+  .edu-spec { color:var(--muted); font-size:0.82rem; margin-top:0.5rem; font-style:italic; }
+
+  .project-card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:2.5rem; position:relative; overflow:hidden; transition:border-color 0.25s,transform 0.25s; }
+  .project-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--accent),var(--accent2)); }
+  .project-card:hover { border-color:rgba(0,212,255,0.3); transform:translateY(-4px); }
+  .project-badge { display:inline-flex; align-items:center; gap:0.4rem; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); color:var(--accent3); font-size:0.75rem; font-weight:600; padding:0.25rem 0.7rem; border-radius:100px; margin-bottom:1rem; text-transform:uppercase; letter-spacing:0.05em; }
+  .project-badge::before { content:'◉'; font-size:0.5rem; animation:blink 2s infinite; }
+  .project-title { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; margin-bottom:0.5rem; }
+  .project-subtitle { color:var(--accent); font-size:0.85rem; margin-bottom:1rem; }
+  .project-desc { color:var(--muted); font-size:0.9rem; font-weight:300; line-height:1.75; margin-bottom:1.5rem; }
+  .tech-tags { display:flex; flex-wrap:wrap; gap:0.5rem; }
+  .tech-tag { background:rgba(124,58,237,0.1); border:1px solid rgba(124,58,237,0.25); color:#a78bfa; font-size:0.75rem; padding:0.25rem 0.65rem; border-radius:5px; font-weight:500; }
+  .project-contrib { margin-top:1.5rem; }
+  .project-contrib-title { font-family:'Syne',sans-serif; font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:0.5rem; }
+  .project-contrib-text { color:var(--muted); font-size:0.875rem; font-weight:300; line-height:1.7; }
+
+  #certifications { background:var(--surface); }
+  .cert-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.2rem; }
+  .cert-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.5rem; display:flex; align-items:flex-start; gap:1rem; transition:border-color 0.25s,transform 0.25s; }
+  .cert-card:hover { border-color:var(--accent3); transform:translateY(-3px); }
+  .cert-icon { width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; }
+  .cert-icon.blue { background:rgba(0,212,255,0.1); }
+  .cert-icon.green { background:rgba(16,185,129,0.1); }
+  .cert-icon.purple { background:rgba(124,58,237,0.1); }
+  .cert-name { font-family:'Syne',sans-serif; font-weight:700; font-size:0.9rem; margin-bottom:0.25rem; }
+  .cert-issuer { color:var(--muted); font-size:0.8rem; }
+
+  /* ─── CV SECTION ─── */
+  #cv { background: var(--bg); }
+  .cv-wrapper { display: grid; grid-template-columns: 1fr 1.6fr; gap: 3rem; align-items: start; }
+  .cv-info h3 { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:700; margin-bottom:1rem; }
+  .cv-info p { color:var(--muted); font-size:0.9rem; font-weight:300; line-height:1.8; margin-bottom:1.5rem; }
+  .cv-actions { display:flex; flex-direction:column; gap:0.8rem; }
+  .cv-stat-row { display:flex; flex-direction:column; gap:0.6rem; margin-top:2rem; }
+  .cv-stat { display:flex; align-items:center; gap:0.75rem; background:var(--card); border:1px solid var(--border); border-radius:8px; padding:0.8rem 1rem; font-size:0.85rem; color:var(--muted); }
+  .cv-stat-icon { color:var(--accent); font-size:1rem; }
+
+  .cv-preview-box {
+    background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+    overflow: hidden; position: relative;
+  }
+  .cv-preview-header {
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 0.9rem 1.2rem;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid var(--border);
+  }
+  .cv-preview-dots { display:flex; gap:0.4rem; }
+  .cv-preview-dots span { width:10px; height:10px; border-radius:50%; }
+  .dot-r { background:#ff5f57; } .dot-y { background:#febc2e; } .dot-g { background:#28c840; }
+  .cv-preview-label { font-size:0.78rem; color:var(--muted); font-weight:500; }
+  .cv-iframe-wrap { position:relative; width:100%; padding-bottom:130%; background:#1a2234; }
+  .cv-iframe-wrap iframe { position:absolute; inset:0; width:100%; height:100%; border:none; }
+  .cv-fallback {
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:1rem;
+    background: linear-gradient(135deg, #111827 0%, #161f30 100%);
+  }
+  .cv-fallback-icon { font-size:3rem; }
+  .cv-fallback-text { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700; }
+  .cv-fallback-sub { color:var(--muted); font-size:0.85rem; text-align:center; max-width:240px; }
+
+  /* CV Modal */
+  .cv-modal-overlay {
+    display:none; position:fixed; inset:0; z-index:500;
+    background:rgba(0,0,0,0.85); backdrop-filter:blur(8px);
+    align-items:center; justify-content:center;
+  }
+  .cv-modal-overlay.open { display:flex; }
+  .cv-modal {
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:20px; width:min(90vw,860px); height:85vh;
+    display:flex; flex-direction:column; overflow:hidden;
+    position:relative;
+  }
+  .cv-modal-header {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1rem 1.5rem; border-bottom:1px solid var(--border);
+    flex-shrink:0;
+  }
+  .cv-modal-title { font-family:'Syne',sans-serif; font-weight:700; font-size:0.95rem; }
+  .cv-modal-close {
+    width:32px; height:32px; border-radius:8px; background:var(--card);
+    border:1px solid var(--border); color:var(--muted); cursor:pointer;
+    display:flex; align-items:center; justify-content:center; font-size:1rem;
+    transition:all 0.2s;
+  }
+  .cv-modal-close:hover { background:rgba(255,255,255,0.1); color:var(--text); }
+  .cv-modal-body { flex:1; overflow:hidden; }
+  .cv-modal-body iframe { width:100%; height:100%; border:none; }
+
+  /* CV inline viewer — scrollable embed */
+  .cv-embed-scroll {
+    height: 600px; overflow-y: auto;
+    background: #fff; border-radius: 0 0 16px 16px;
+  }
+  .cv-embed-scroll iframe { width:100%; height:1200px; border:none; }
+
+  /* CV card — text-based fallback */
+  .cv-card-section { margin-bottom:1.5rem; }
+  .cv-card-section-title {
+    font-family:'Syne',sans-serif; font-size:0.75rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:0.1em; color:var(--accent);
+    margin-bottom:0.75rem; padding-bottom:0.4rem;
+    border-bottom:1px solid var(--border);
+  }
+  .cv-entry { margin-bottom:1rem; }
+  .cv-entry-role { font-family:'Syne',sans-serif; font-weight:700; font-size:0.9rem; }
+  .cv-entry-meta { color:var(--muted); font-size:0.8rem; margin:0.15rem 0 0.3rem; }
+  .cv-entry-desc { color:var(--muted); font-size:0.82rem; font-weight:300; line-height:1.6; }
+
+  #contact { text-align:center; background:linear-gradient(180deg,var(--bg) 0%,#0d1526 100%); }
+  .contact-wrapper { max-width:600px; margin:0 auto; }
+  .contact-desc { color:var(--muted); font-size:1rem; font-weight:300; line-height:1.8; margin-bottom:2.5rem; }
+  .contact-links { display:flex; justify-content:center; flex-wrap:wrap; gap:1rem; }
+  .contact-link { display:inline-flex; align-items:center; gap:0.6rem; background:var(--card); border:1px solid var(--border); color:var(--text); text-decoration:none; padding:0.75rem 1.5rem; border-radius:10px; font-size:0.9rem; transition:all 0.25s; }
+  .contact-link:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-2px); }
+
+  footer { text-align:center; padding:2rem 4rem; border-top:1px solid var(--border); color:var(--muted); font-size:0.8rem; }
+
+  .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.6s ease,transform 0.6s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+
+  @media(max-width:768px) {
+    nav { padding:1rem 1.5rem; }
+    .nav-links { display:none; }
+    section { padding:3.5rem 1.5rem; }
+    #hero { padding:7rem 1.5rem 3rem; }
+    .about-grid,.cv-wrapper { grid-template-columns:1fr; gap:2rem; }
+    .hero-stats { gap:1.5rem; }
+    .divider { margin:0 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">CS</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#cv">CV</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-blob blob1"></div>
+  <div class="hero-blob blob2"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Available for opportunities</div>
+    <h1 class="hero-name">Chamika<br><span>Samarasinghe</span></h1>
+    <div class="hero-title">Information Technology Specialist</div>
+    <p class="hero-desc">IT undergraduate specialising in Computer Systems & Network Engineering — building expertise in networking, cloud infrastructure, and cybersecurity through real-world experience and hands-on research.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#cv">View My CV</a>
+      <a class="btn btn-secondary" href="#projects">See Projects</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">3+</div><div class="stat-label">Years Experience</div></div>
+      <div><div class="stat-num">4+</div><div class="stat-label">Work Roles</div></div>
+      <div><div class="stat-num">2026</div><div class="stat-label">Expected Graduation</div></div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">Who I am</div>
+  <h2 class="section-title">About Me</h2>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>I'm an undergraduate student at SLIIT specialising in Computer Systems and Network Engineering, with a strong interest in networking, cloud computing, cybersecurity, and IT infrastructure.</p>
+      <p>Through roles in telecommunications, technology services, banking, and customer service, I've developed strong communication skills, adaptability, and professional discipline. I'm also drawn to AI and ML — particularly how intelligent systems can improve monitoring, prediction, and decision-making.</p>
+      <div class="contact-list">
+        <div class="contact-item"><span class="icon">✉</span> chamikads57@gmail.com</div>
+        <div class="contact-item"><span class="icon">📞</span> +94 76 523 1665</div>
+        <div class="contact-item"><span class="icon">📍</span> Gonawala, Kelaniya, Sri Lanka</div>
+      </div>
+    </div>
+    <div>
+      <div class="skills-section-title">Technical Skills</div>
+      <div class="skills-cloud">
+        <span class="skill-tag">Networking</span><span class="skill-tag">Routing & Switching</span><span class="skill-tag">Cloud Computing</span><span class="skill-tag">Microsoft Azure</span><span class="skill-tag">Office 365</span><span class="skill-tag">Cybersecurity</span><span class="skill-tag">IT Support</span><span class="skill-tag">System Troubleshooting</span><span class="skill-tag">IoT Systems</span><span class="skill-tag">LoRa Communication</span><span class="skill-tag">Node-RED</span><span class="skill-tag">React.js</span><span class="skill-tag">Linux</span><span class="skill-tag">Documentation</span><span class="skill-tag">Leadership</span>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Career History</div>
+  <h2 class="section-title">Work Experience</h2>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="tl-header"><div class="tl-role">IT Support Executive</div><div class="tl-period">Dec 2024 – May 2025</div></div>
+        <div class="tl-company">Eureka Technology Partners Pvt Ltd · Colombo</div>
+        <div class="tl-desc">Conducted regular system audits ensuring compliance and security. Gained practical experience in troubleshooting systems, supporting users, maintaining IT operations, and contributing to system-related checks and documentation.</div>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="tl-header"><div class="tl-role">IT Support Intern</div><div class="tl-period">Jun 2024 – Dec 2024</div></div>
+        <div class="tl-company">Telecommunications Regulatory Commission of Sri Lanka · Colombo</div>
+        <div class="tl-desc">Resolved technical issues swiftly, reducing downtime by 20%. Documented processes, creating a knowledge base for future reference. Assisted in resolving technical issues and supporting internal IT activities.</div>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="tl-header"><div class="tl-role">Customer Service Associate</div><div class="tl-period">May 2022 – Aug 2023</div></div>
+        <div class="tl-company">Dialog Business Service · Colombo</div>
+        <div class="tl-desc">Handled customer-related issues and supported service improvement processes. Developed strong communication, patience, teamwork, and problem-solving skills.</div>
+      </div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-card">
+        <div class="tl-header"><div class="tl-role">Banking Associate Trainee</div><div class="tl-period">Oct 2021 – Mar 2022</div></div>
+        <div class="tl-company">National Development Bank · Colombo</div>
+        <div class="tl-desc">Assisted customers and supported banking-related service activities. Developed professionalism, responsibility, customer handling skills, and strong attention to detail.</div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-label">Academic Background</div>
+  <h2 class="section-title">Education</h2>
+  <div class="edu-grid">
+    <div class="edu-card reveal"><div class="edu-icon">🎓</div><div class="edu-degree">BSc (Hons) in Information Technology</div><div class="edu-inst">Sri Lanka Institute of Information Technology</div><div class="edu-period">2022 – 2026 · Expected June 2026</div><div class="edu-spec">Specialisation: Computer Systems & Network Engineering</div></div>
+    <div class="edu-card reveal"><div class="edu-icon">☁️</div><div class="edu-degree">Diploma in Cloud Computing & Security</div><div class="edu-inst">NextGen Campus, Nugegoda</div><div class="edu-period">2025 – 2026</div><div class="edu-spec">Cloud computing, cloud security & modern infrastructure</div></div>
+    <div class="edu-card reveal"><div class="edu-icon">📐</div><div class="edu-degree">GCE Advanced Level</div><div class="edu-inst">St. Anthony's College, Kandy</div><div class="edu-period">2017 – 2019</div><div class="edu-spec">Combined Mathematics · Physics · Chemistry</div></div>
+    <div class="edu-card reveal"><div class="edu-icon">📚</div><div class="edu-degree">GCE Ordinary Level</div><div class="edu-inst">St. Anthony's College, Kandy</div><div class="edu-period">2016</div></div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">My Work</div>
+  <h2 class="section-title">Projects</h2>
+  <div class="reveal">
+    <div class="project-card">
+      <div class="project-badge">Active – 2025</div>
+      <div class="project-title">Battle Buddy 2.0</div>
+      <div class="project-subtitle">Secure IoT-Based Real-Time Soldier Health & Localization Monitoring System with Predictive Intelligence</div>
+      <p class="project-desc">An IoT-based real-time soldier monitoring system integrating health monitoring, GPS location tracking, fall detection, secure communication, and real-time dashboard visualization. Wearable sensor nodes collect heart rate, SpO₂, body temperature, and motion data — transmitted securely via LoRa to a gateway and displayed on a live dashboard.</p>
+      <div class="tech-tags">
+        <span class="tech-tag">ESP32</span><span class="tech-tag">LoRa SX1278</span><span class="tech-tag">GPS Module</span><span class="tech-tag">MPU6050</span><span class="tech-tag">MAX30102</span><span class="tech-tag">MLX90614</span><span class="tech-tag">Node-RED</span><span class="tech-tag">React.js</span><span class="tech-tag">Kalman Filter</span><span class="tech-tag">Cybersecurity</span>
+      </div>
+      <div class="project-contrib">
+        <div class="project-contrib-title">My Contribution</div>
+        <div class="project-contrib-text">Focused on secure LoRa communication, networking, data transmission, and system integration — including reliable long-range communication, secure packet handling, relay-based communication, and data transfer to the dashboard infrastructure.</div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-label">Credentials</div>
+  <h2 class="section-title">Certifications & Achievements</h2>
+  <div class="cert-grid">
+    <div class="cert-card reveal"><div class="cert-icon blue">☁️</div><div><div class="cert-name">Diploma in Cloud Computing & Security</div><div class="cert-issuer">NextGen Campus</div></div></div>
+    <div class="cert-card reveal"><div class="cert-icon green">🌐</div><div><div class="cert-name">CCNA: Switching, Routing & Wireless Essentials</div><div class="cert-issuer">Cisco</div></div></div>
+    <div class="cert-card reveal"><div class="cert-icon purple">🏆</div><div><div class="cert-name">SLASSCOM National Ingenuity Awards 2026</div><div class="cert-issuer">Participation Certificate</div></div></div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- CV SECTION -->
+<section id="cv">
+  <div class="section-label">Download & Preview</div>
+  <h2 class="section-title">My CV</h2>
+  <div class="cv-wrapper reveal">
+    <!-- Left: info + actions -->
+    <div class="cv-info">
+      <h3>Chamika Samarasinghe</h3>
+      <p>My full curriculum vitae covers my education, work experience, technical skills, certifications, and projects — ready to share with recruiters or hiring managers.</p>
+      <div class="cv-actions">
+        <button class="btn btn-primary" onclick="openModal()">📄 View Full CV</button>
+        <a class="btn btn-secondary" href="chamika_cv.pdf" download="Chamika_Samarasinghe_CV.pdf">⬇ Download PDF</a>
+      </div>
+      <div class="cv-stat-row">
+        <div class="cv-stat"><span class="cv-stat-icon">🎓</span> BSc IT — SLIIT (2022–2026)</div>
+        <div class="cv-stat"><span class="cv-stat-icon">💼</span> 4 professional roles · 3+ years</div>
+        <div class="cv-stat"><span class="cv-stat-icon">📜</span> CCNA · Cloud Computing Diploma</div>
+        <div class="cv-stat"><span class="cv-stat-icon">🏆</span> SLASSCOM Ingenuity Awards 2026</div>
+      </div>
+    </div>
+
+    <!-- Right: preview card -->
+    <div class="cv-preview-box">
+      <div class="cv-preview-header">
+        <div class="cv-preview-dots">
+          <span class="dot-r"></span><span class="dot-y"></span><span class="dot-g"></span>
+        </div>
+        <div class="cv-preview-label">Chamika_Samarasinghe_CV.pdf</div>
+        <div style="width:60px"></div>
+      </div>
+      <!-- Inline styled CV preview (since PDF embed may be blocked in iframe sandbox) -->
+      <div style="background:#fff; padding:2rem; overflow-y:auto; max-height:600px; color:#111; font-family:'DM Sans',sans-serif; font-size:13px;">
+        <!-- Header -->
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:2px solid #1e40af;">
+          <div>
+            <div style="font-size:2rem; font-weight:800; letter-spacing:-0.03em; color:#0f172a; font-family:'Syne',sans-serif;">CHAMIKA<br>SAMARASINGHE</div>
+            <div style="color:#1e40af; font-weight:600; margin-top:0.25rem;">Information Technology Specialist</div>
+          </div>
+          <div style="text-align:right; color:#475569; font-size:12px; line-height:1.8;">
+            chamikads57@gmail.com<br>
+            +94 76 523 1665<br>
+            Kelaniya, Sri Lanka
+          </div>
+        </div>
+        <!-- Summary -->
+        <div style="margin-bottom:1.2rem;">
+          <div style="font-weight:700; text-transform:uppercase; letter-spacing:0.1em; font-size:11px; color:#1e40af; margin-bottom:0.5rem; border-bottom:1px solid #e2e8f0; padding-bottom:0.25rem;">SUMMARY</div>
+          <p style="color:#334155; line-height:1.7;">Detail-oriented IT undergraduate specializing in Computer Systems and Network Engineering, with practical experience in IT support, networking, and customer-facing technical roles. Proven ability to troubleshoot systems, manage network tasks, and deliver reliable support in fast-paced environments.</p>
+        </div>
+        <!-- Experience -->
+        <div style="margin-bottom:1.2rem;">
+          <div style="font-weight:700; text-transform:uppercase; letter-spacing:0.1em; font-size:11px; color:#1e40af; margin-bottom:0.5rem; border-bottom:1px solid #e2e8f0; padding-bottom:0.25rem;">EXPERIENCE</div>
+          <div style="margin-bottom:0.8rem;"><div style="font-weight:700; color:#0f172a;">IT Support Executive — Eureka Technology Partners</div><div style="color:#64748b; font-size:12px;">Dec 2024 – May 2025</div><div style="color:#334155; margin-top:0.2rem;">Conducted regular system audits, ensuring compliance and security.</div></div>
+          <div style="margin-bottom:0.8rem;"><div style="font-weight:700; color:#0f172a;">IT Support Intern — TRCSL</div><div style="color:#64748b; font-size:12px;">Jun 2024 – Dec 2024</div><div style="color:#334155; margin-top:0.2rem;">Resolved technical issues swiftly, reducing downtime by 20%. Documented processes for future reference.</div></div>
+          <div style="margin-bottom:0.8rem;"><div style="font-weight:700; color:#0f172a;">Customer Service Associate — Dialog Business Service</div><div style="color:#64748b; font-size:12px;">May 2022 – Aug 2023</div><div style="color:#334155; margin-top:0.2rem;">Handled customer issues, implemented feedback systems, drove service improvements.</div></div>
+          <div style="margin-bottom:0.8rem;"><div style="font-weight:700; color:#0f172a;">Banking Associate Trainee — National Development Bank</div><div style="color:#64748b; font-size:12px;">Oct 2021 – Mar 2022</div><div style="color:#334155; margin-top:0.2rem;">Assisted clients with tailored financial solutions; developed professional discipline.</div></div>
+        </div>
+        <!-- Education -->
+        <div style="margin-bottom:1.2rem;">
+          <div style="font-weight:700; text-transform:uppercase; letter-spacing:0.1em; font-size:11px; color:#1e40af; margin-bottom:0.5rem; border-bottom:1px solid #e2e8f0; padding-bottom:0.25rem;">EDUCATION</div>
+          <div style="margin-bottom:0.6rem;"><div style="font-weight:700; color:#0f172a;">BSc (Hons) Information Technology — SLIIT</div><div style="color:#64748b; font-size:12px;">2022 – 2026 · Computer Systems & Network Engineering</div></div>
+          <div style="margin-bottom:0.6rem;"><div style="font-weight:700; color:#0f172a;">Diploma in Cloud Computing & Security — NextGen Campus</div><div style="color:#64748b; font-size:12px;">2025 – 2026</div></div>
+          <div style="margin-bottom:0.6rem;"><div style="font-weight:700; color:#0f172a;">GCE A/L — St. Anthony's College, Kandy</div><div style="color:#64748b; font-size:12px;">2017 – 2019 · Combined Mathematics, Physics, Chemistry</div></div>
+        </div>
+        <!-- Skills -->
+        <div style="margin-bottom:1.2rem;">
+          <div style="font-weight:700; text-transform:uppercase; letter-spacing:0.1em; font-size:11px; color:#1e40af; margin-bottom:0.5rem; border-bottom:1px solid #e2e8f0; padding-bottom:0.25rem;">SKILLS</div>
+          <div style="display:flex; flex-wrap:wrap; gap:0.4rem;">
+            <span style="background:#eff6ff; color:#1e40af; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:500;">Networking</span>
+            <span style="background:#eff6ff; color:#1e40af; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:500;">Routing & Switching</span>
+            <span style="background:#eff6ff; color:#1e40af; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:500;">Cloud Computing</span>
+            <span style="background:#eff6ff; color:#1e40af; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:500;">Azure</span>
+            <span style="background:#eff6ff; color:#1e40af; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:500;">Office 365</span>
+            <span style="background:#eff6ff; color:#1e40af; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:500;">Cybersecurity</span>
+            <span style="background:#eff6ff; color:#1e40af; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:500;">IT Support</span>
+            <span style="background:#eff6ff; color:#1e40af; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:500;">Leadership</span>
+          </div>
+        </div>
+        <!-- Certs -->
+        <div>
+          <div style="font-weight:700; text-transform:uppercase; letter-spacing:0.1em; font-size:11px; color:#1e40af; margin-bottom:0.5rem; border-bottom:1px solid #e2e8f0; padding-bottom:0.25rem;">CERTIFICATIONS & ACHIEVEMENTS</div>
+          <div style="color:#334155; line-height:1.8;">
+            ☁️ Diploma in Cloud Computing & Security — NextGen Campus<br>
+            🌐 CCNA: Switching, Routing & Wireless Essentials — Cisco<br>
+            🏆 Participation — SLASSCOM National Ingenuity Awards 2026
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrapper reveal">
+    <div class="section-label" style="text-align:center;">Let's Connect</div>
+    <h2 class="section-title">Get in Touch</h2>
+    <p class="contact-desc">I'm open to internship opportunities, industry projects, and collaborations in networking, cloud computing, and IT infrastructure. Feel free to reach out!</p>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:chamikads57@gmail.com"><span>✉️</span> chamikads57@gmail.com</a>
+      <a class="contact-link" href="tel:+94765231665"><span>📞</span> +94 76 523 1665</a>
+      <a class="contact-link" href="#"><span>📍</span> Kelaniya, Sri Lanka</a>
+    </div>
+  </div>
+</section>
+
+<footer><p>© 2026 Chamika Samarasinghe · Built with purpose</p></footer>
+
+<!-- CV MODAL -->
+<div class="cv-modal-overlay" id="cvModal" onclick="handleOverlayClick(event)">
+  <div class="cv-modal">
+    <div class="cv-modal-header">
+      <div class="cv-modal-title">📄 Chamika Samarasinghe — CV</div>
+      <button class="cv-modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="cv-modal-body">
+      <iframe src="chamika_cv.pdf" title="CV"></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold:0.1, rootMargin:'0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Modal
+  function openModal() { document.getElementById('cvModal').classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeModal() { document.getElementById('cvModal').classList.remove('open'); document.body.style.overflow=''; }
+  function handleOverlayClick(e) { if(e.target === document.getElementById('cvModal')) closeModal(); }
+  document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+</script>
+</body>
+</html>
